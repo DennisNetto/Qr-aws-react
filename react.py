@@ -15,9 +15,12 @@ def lambda_handler(event, context):
         key = "secrete"
         encoded = thing
         decode = jwt.decode(encoded, key, algorithms="HS256")
-        query = 'SELECT First_name, Last_name, DOB FROM penut_humanstorage WHERE id_number= '
+        query = """SELECT First_name, Last_name, DOB FROM penut_humanstorage WHERE id_number='"""
         bob = decode['id_number']
-        query = query + bob
+        ted  = decode['Hash']
+        end = """ and hash='"""
+        query = query + bob + """'""" + end + ted + """'"""
+        print(query)
         try:
             cursor.execute(query)
             data = cursor.fetchall()
@@ -39,4 +42,3 @@ def lambda_handler(event, context):
         'statusCode': 200,
         'body': test
     }
-
